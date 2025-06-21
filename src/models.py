@@ -50,14 +50,14 @@ class User(db.Model):
         backref=db.backref('users', lazy='dynamic'),
         lazy='dynamic'
     )
-    Planets_favorites = db.relationship(
+    favorites_planets = db.relationship(
         'Planets',
         secondary=favorites_planets,
         backref=db.backref('users', lazy='dynamic'),
         lazy='dynamic'
     )
     starships_favorites = db.relationship(
-            'starship',
+            'Starship',
             secondary=favorites_starships,
             backref=db.backref('users', lazy='dynamic'),
             lazy='dynamic'
@@ -108,7 +108,7 @@ class Planets(db.Model):
             "population": self.population
         }
 
-class starship(db.Model):
+class Starship(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100), nullable=False)
     model: Mapped[str] = mapped_column(String(100), nullable=True)
