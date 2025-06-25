@@ -85,12 +85,8 @@ def get_all_users():
     return jsonify([user.serialize() for user in users]), 200
 
 #-----------------------------------Routes for User Favorites List-----------------------------------
-@app.route('/users/favorites', methods=['GET'])
-def get_favorites():
-    user_id = request.args.get('user_id')
-    if not user_id:
-        return jsonify({"msg": "User id is requiered"}), 400
-    
+@app.route('/users/<int:user_id>/favorites', methods=['GET'])
+def get_favorites(user_id):
     user = User.query.get(user_id)
     if not user:
         return jsonify({"msg": "User not found"}), 404
@@ -169,7 +165,7 @@ def add_favorite_planet(planet_id):
     if not user or not planet:
         return jsonify({'msg': 'User or Planet not found'}), 404
     
-    if planet in user.fevorites_planets:
+    if planet in user.favorites_planets:
         return jsonify({'msg': 'Planet already in favorites'}), 400
     user.favorites_planets.append(planet)
 
@@ -215,7 +211,7 @@ def add_favorite_starship(starship_id):
     return jsonify({'msg': 'Starship added to favorites'}), 201
 
 #-----------------------------------Routes for Deleting Favorites Planets-----------------------------------
-@app.route('/favorite/planets/<int:planet_id>', methods=['DELETE'])
+@app.route('/favorite/planet/<int:planet_id>', methods=['DELETE'])
 def delete_favorite_planet(planet_id):
     user_id = request.json.get('user_id')
     if not user_id:
