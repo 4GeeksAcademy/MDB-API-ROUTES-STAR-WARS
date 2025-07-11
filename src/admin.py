@@ -1,6 +1,6 @@
 import os
 from flask_admin import Admin
-from models import db, User
+from models import db, User, Characters, Planets, Starship
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
@@ -11,6 +11,10 @@ def setup_admin(app):
     
     # Add your models here, for example this is how we add a the User model to the admin
     admin.add_view(ModelView(User, db.session))
+    admin.add_view(ModelView(User, db.session, name='Users', category='User Management'))
+    admin.add_view(ModelView(Characters, db.session, name='Characters', category='Star Wars'))
+    admin.add_view(ModelView(Planets, db.session, name='Planets', category='Star Wars'))
+    admin.add_view(ModelView(Starship, db.session, name='Starships', category='Star Wars'))
 
     # You can duplicate that line to add mew models
     # admin.add_view(ModelView(YourModelName, db.session))
